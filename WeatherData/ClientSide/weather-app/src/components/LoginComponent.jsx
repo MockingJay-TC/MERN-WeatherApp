@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { FcBusinessman } from "react-icons/fc";
 import { AiTwotoneLock } from "react-icons/ai";
 import Axios from "axios";
+import { useHistory } from "react-router";
 
 const LoginComponent = () => {
+  let history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   //   const [isPending, setIsPending] = useState(true);
@@ -24,10 +26,19 @@ const LoginComponent = () => {
     e.preventDefault();
     if (validate(data)) {
       const url = "http://localhost:4000/users/login";
-      Axios.post(url, data).then((res) => {
-        console.log(res);
-        console.log(res.status);
-      });
+      Axios.post(url, data)
+        .then((res) => {
+          console.log(res);
+          console.log(res.status);
+          if (res.status === 200) {
+            history.push("/weather");
+          } else {
+            history.push("/");
+          }
+        })
+        .then((err) => {
+          console.log(err);
+        });
     } else {
       console.log("Wrong Credientials");
     }
