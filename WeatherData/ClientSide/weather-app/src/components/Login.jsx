@@ -5,7 +5,7 @@ import { FcBusinessman } from "react-icons/fc";
 import { AiTwotoneLock } from "react-icons/ai";
 
 const Login = () => {
-  const [isPending, setIsPending] = useState(true);
+  // const [isPending, setIsPending] = useState(true);
 
   const dispatch = useDispatch();
 
