@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import "./weather.css";
 import { AiOutlineSearch } from "react-icons/ai";
+import { CgMenuRight } from "react-icons/cg";
 const api = {
   key: "f5e7040631efd5065f4c142f42f7b7f2",
   baseUrl: "https://api.openweathermap.org/data/2.5/",
@@ -16,12 +17,11 @@ const Weather = () => {
     if (evt.key === "Enter") {
       Axios.get(
         `${api.baseUrl}weather?q=${query}&units=metric&APPID=${api.key}`
-      )
-        .then((result) => {
-          setWeather(result);
-          setQuery("");
-          console.log(result);
-        });
+      ).then((result) => {
+        setWeather(result);
+        setQuery("");
+        console.log(result);
+      });
     }
   };
 
@@ -30,7 +30,7 @@ const Weather = () => {
       "https://api.openweathermap.org/data/2.5/weather?q=takoradi&units=metric&APPID=f5e7040631efd5065f4c142f42f7b7f2";
     Axios.get(url).then((result) => {
       setDefaultWeather(result);
-      console.log(result);
+      console.log(result.data);
     });
   }, []);
   const dateBuilder = (d) => {
@@ -66,6 +66,9 @@ const Weather = () => {
     return `${day} ${date} ${month} ${year}`;
   };
 
+  var today = new Date();
+  var time = today.getHours() + ":" + today.getMinutes();
+
   return (
     <div className="container">
       <div
@@ -90,6 +93,27 @@ const Weather = () => {
             <a href="#" className="search-btn">
               <AiOutlineSearch />
             </a>
+          </div>
+          <div className="menu">
+            <CgMenuRight className="menu-icon" />
+          </div>
+        </div>
+        <div className="main">
+          <div className="location">
+            <div className="city">
+              {defaultWeather && defaultWeather.data.name}
+            </div>
+            <div className="sub_main">
+              <div className="time">{time} - {dateBuilder(new Date())}</div>
+            </div>
+          </div>
+          <div className="weather-box">
+            <div className="temp">
+              {defaultWeather && Math.round(defaultWeather.data.main.temp)}°C
+            </div>
+            <div className="weather">
+              {defaultWeather && defaultWeather.data.weather[0].main}
+            </div>
           </div>
         </div>
       </div>
